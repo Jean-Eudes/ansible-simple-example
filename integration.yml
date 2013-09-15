@@ -1,0 +1,8 @@
+---
+- name: Install mule server
+  hosts: mule
+  user: vagrant
+  vars:
+  roles:
+    - mule
+

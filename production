@@ -1,0 +1,14 @@
+[database]
+dev3
+
+[web]
+dev1
+dev2
+
+[mule]
+dev1
+
+[production:children]
+database
+web
+mule

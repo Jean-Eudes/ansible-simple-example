@@ -1,0 +1,5 @@
+---
+
+catalina_home: /home/vagrant/apache-tomcat/tomcat7
+catalina_base: /home/vagrant/apache-tomcat/cocktail
+

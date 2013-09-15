@@ -1,0 +1,49 @@
+---
+  - name: Create archive directory
+    file: path={{ archive_dir }} state=directory owner=vagrant group=vagrant
+
+  - name: download tomcat 7
+    get_url: url=http://mirrors.ircam.fr/pub/apache/tomcat/tomcat-7/v7.0.42/bin/apache-tomcat-7.0.42.tar.gz dest={{ archive_dir }}
+
+  - name: create directory to tomcat
+    file: path=/home/vagrant/apache-tomcat state=directory
+
+  - name: unzip tomcat in new directory
+    command: /bin/tar xzf {{ archive_dir }}/apache-tomcat-7.0.42.tar.gz -C /home/vagrant/apache-tomcat creates=/home/vagrant/apache-tomcat/apache-tomcat-7.0.42
+
+  - name: remove unsused tomcat directory from CATALINA_HOME
+    file: dest=/home/vagrant/apache-tomcat/apache-tomcat-7.0.42/{{item}} state=absent
+    with_items:
+      - conf
+      - logs
+      - temp
+      - webapps
+      - work
+
+  - name: create a link for tomcat
+    file: state=link path=/home/vagrant/apache-tomcat/tomcat7 src=/home/vagrant/apache-tomcat/apache-tomcat-7.0.42
+
+  - name: create directory for cocktail webapp
+    file: state=directory path={{ catalina_base }}/{{ item }}
+    with_items:
+      - webapps
+      - conf/Catalina/localhost
+      - bin
+      - logs
+
+  - name: create setenv tomcat file.
+    copy: src=setenv.sh dest={{ catalina_base }}/bin
+
+  - name: copy context.xml file
+    template: src=context.xml dest={{ catalina_base }}/conf/Catalina/localhost/cocktail.xml backup=yes
+
+  - name: install server.xml file
+    template: src=server.xml dest=/home/vagrant/apache-tomcat/cocktail/conf/server.xml backup=yes
+
+  - name: install tomcat service launcher
+    template: src=tomcat dest=/etc/init.d/cocktail mode=0700 backup=yes
+    sudo: yes
+
+  - name: install tomcat as service
+    service: name=cocktail enabled=yes state=started
+    sudo: yes

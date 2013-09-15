@@ -1,0 +1,10 @@
+---
+
+update_cache: no
+
+base_dir: /home/vagrant
+archive_dir: /home/vagrant/archives
+
+db_login: cocktail
+db_password: cocktail
+db_name: cocktail

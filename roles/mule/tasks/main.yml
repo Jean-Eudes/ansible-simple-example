@@ -1,0 +1,21 @@
+---
+  - name: Create archive directory
+    file: path=/home/vagrant/{{dir}} state=directory owner=vagrant group=vagrant
+
+  - name: download mule
+    get_url: url=http://dist.codehaus.org/mule/distributions/mule-standalone-3.4.0.tar.gz dest=/home/vagrant/{{dir}}
+
+  - name: create directory to mule
+    file: path=/home/vagrant/mules state=directory
+
+  - name: unzip mule in new directory
+    command: /bin/tar xzf /home/vagrant/{{dir}}/mule-standalone-3.4.0.tar.gz -C /home/vagrant/mules creates=/home/vagrant/mules/mule-standalone-3.4.0
+
+  - name: copy mule for mules
+    command: /bin/cp -R /home/vagrant/mules/mule-standalone-3.4.0 /home/vagrant/mules/{{item}} creates=/home/vagrant/mules/{{item}}
+    with_items: mule_dirs
+
+  - name: install mule launcher
+    template: src=mule dest=/etc/init.d/{{item}} mode=0700
+    sudo: yes
+    with_items: mule_dirs

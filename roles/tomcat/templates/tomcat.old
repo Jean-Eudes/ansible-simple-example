@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#Tomcat auto-start
+#description: Auto-starts tomcat
+#processname: tomcat
+#pidfile: /var/run/tomcat.pid
+
+# {{env}}
+
+export CATALINA_HOME=/home/vagrant/apache-tomcat/tomcat7
+export CATALINA_BASE=/home/vagrant/apache-tomcat/cocktail
+export CATALINA_PID=/home/vagrant/apache-tomcat/cocktail/logs/cocktail.pid
+
+#this path should point to your JAVA_HOME Directory
+case $1 in
+
+start)
+sh $CATALINA_HOME/bin/startup.sh
+;;
+
+stop)
+sh $CATALINA_HOME/bin/shutdown.sh
+;;
+
+restart)
+sh $CATALINA_HOME/bin/shutdown.sh
+sh $CATALINA_HOME/bin/startup.sh
+;;
+esac
+
+exit 0
+

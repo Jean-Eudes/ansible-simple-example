@@ -1,0 +1,60 @@
+#!/bin/bash
+
+#Tomcat auto-start
+#description: Auto-starts tomcat
+#processname: tomcat
+#pidfile: /var/run/cocktail.pid
+
+# {{env}}
+
+. /lib/lsb/init-functions
+
+export CATALINA_HOME=/home/vagrant/apache-tomcat/tomcat7
+export CATALINA_BASE=/home/vagrant/apache-tomcat/cocktail
+
+NAME=cocktail
+EXEC=$CATALINA_HOME/bin/startup.sh
+PIDFILE=$CATALINA_BASE/logs/cocktail.pid
+
+export CATALINA_PID=$PIDFILE
+
+do_start()
+{
+  start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $EXEC -c vagrant
+}
+
+do_stop() 
+{
+  start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $PIDFILE
+  rm -f $PIDFILE
+}
+
+do_status()
+{
+  status_of_proc -p $PIDFILE $EXEC $NAME  && exit 0 || exit $?
+}
+
+#this path should point to your JAVA_HOME Directory
+case $1 in
+
+start)
+  do_start
+;;
+
+stop)
+  do_stop
+;;
+
+restart)
+  do_stop
+  do_start
+;;
+
+status)
+  do_status
+;;
+
+esac
+
+exit 0
+

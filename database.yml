@@ -1,0 +1,7 @@
+---
+- name: install mysql server
+  hosts: database
+  user: vagrant
+  roles:
+    - mysql
+

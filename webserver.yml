@@ -1,0 +1,8 @@
+---
+- name: Install tomcat server
+  hosts: web
+  user: vagrant
+  vars:
+  roles:
+    - tomcat
+

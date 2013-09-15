@@ -1,0 +1,7 @@
+---
+  - name: install common dependencies (java, memcached)
+    apt: pkg={{item}} state=present update_cache={{ update_cache }}
+    sudo: yes
+    with_items:
+      - openjdk-7-jdk
+      - memcached

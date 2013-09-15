@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+
+  <Resource name="jdbc/WallyDB" auth="Container"
+            type="javax.sql.DataSource" username="{{ db_login }}" password="{{ db_password  }}"
+            driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" 
+            url="jdbc:mysql://{{ hostvars[groups['database'][0]]['ansible_eth1']['ipv4']['address']  }}:3306/{{ db_name }}"
+            maxActive="8" 
+            />
+
+</Context>
+

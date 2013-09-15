@@ -1,0 +1,7 @@
+---
+mule_dirs:
+  - mule-integ-invoice
+  - mule-integ-alias
+  - mule-integ-attachment
+  - mule-business-process
+

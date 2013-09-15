@@ -1,0 +1,21 @@
+---
+  - name: install mysql service
+    apt: name={{item}} state=present update_cache={{ update_cache }}
+    sudo: true
+    with_items:
+      - mysql-server
+      - python-mysqldb
+
+  - name: install mysql additional conf
+    template: src=my.cnf dest=/etc/mysql/conf.d/mysql-additional.cnf
+    sudo: true
+    notify: 
+      - restart mysql
+
+
+  - name: create mysql schema
+    mysql_db: name=cocktail
+
+  - name: create mysql user
+    mysql_user: name=cocktail password=cocktail priv=cocktail.*:ALL state=present
+

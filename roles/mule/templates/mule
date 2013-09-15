@@ -1,0 +1,51 @@
+#!/bin/bash
+# {{ ansible_managed }}
+# RHEL Mule Init Script
+#
+# chkconfig: 2345 65 64
+# description: Mule ESB service
+
+. /lib/lsb/init-functions
+
+# . /etc/init.d/functions
+#
+if [ -f /etc/sysconfig/mule ]; then
+. /etc/sysconfig/mule
+fi
+ 
+# Set JDK related environment
+#JAVA_HOME=/usr/java/default
+#PATH=$PATH:$JAVA_HOME/bin
+ 
+# Set Mule related environment
+MULE_HOME=/home/vagrant/mules/{{item}}
+MULE_LIB=$MULE_HOME/lib
+PATH=$PATH:$MULE_HOME/bin
+RUN_AS_USER=vagrant
+MULE_ENV=production
+ 
+# Export environment variables
+export MULE_HOME MULE_LIB PATH MULE_ENV RUN_AS_USER
+ 
+case "$1" in
+start)
+echo "Start service mule"
+$MULE_HOME/bin/mule start -M-Dspring.profiles.active=$MULE_ENV -M-DMULE_ENV=$MULE_ENV
+;;
+stop)
+echo "Stop service mule"
+$MULE_HOME/bin/mule stop
+;;
+restart)
+echo "Restart service mule"
+$MULE_HOME/bin/mule restart -M-Dspring.profiles.active=$MULE_ENV -M-DMULE_ENV=$MULE_ENV
+;;
+status)
+  status_of_proc -p $PIDFILE $MULE_HOME/bin {{ item }}  && exit 0 || exit $?
+;;
+*)
+echo "Usage: $0 {start|stop|restart}"
+exit 1
+;;
+esac
+
