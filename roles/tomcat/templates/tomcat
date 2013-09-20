@@ -3,14 +3,14 @@
 #Tomcat auto-start
 #description: Auto-starts tomcat
 #processname: tomcat
-#pidfile: /var/run/cocktail.pid
+#pidfile: $CATALINA_BASE/logs/cocktail.pid
 
 # {{env}}
 
 . /lib/lsb/init-functions
 
-export CATALINA_HOME=/home/vagrant/apache-tomcat/tomcat7
-export CATALINA_BASE=/home/vagrant/apache-tomcat/cocktail
+export CATALINA_HOME={{ catalina_home }}
+export CATALINA_BASE={{ catalina_base }}
 
 NAME=cocktail
 EXEC=$CATALINA_HOME/bin/startup.sh

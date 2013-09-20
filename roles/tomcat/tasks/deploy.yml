@@ -7,7 +7,7 @@
     wait_for: port=8080 state=stopped delay=2 timeout=5
 
   - name: Install Cocktail Webapp from DropBox
-    get_url: url="https://dl.dropbox.com/s/c0568sfgm285msn/cocktail.war" dest=/home/vagrant/apache-tomcat/cocktail/webapps/cocktail.war force=no
+    get_url: url="https://dl.dropbox.com/s/c0568sfgm285msn/cocktail.war" dest={{ catalina_base }}/webapps/cocktail.war force=no
 
   - name: restart tomcat
     service: name=cocktail state=started

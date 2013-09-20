@@ -38,7 +38,7 @@
     template: src=context.xml dest={{ catalina_base }}/conf/Catalina/localhost/cocktail.xml backup=yes
 
   - name: install server.xml file
-    template: src=server.xml dest=/home/vagrant/apache-tomcat/cocktail/conf/server.xml backup=yes
+    template: src=server.xml dest={{ catalina_base }}/conf/server.xml backup=yes
 
   - name: install tomcat service launcher
     template: src=tomcat dest=/etc/init.d/cocktail mode=0700 backup=yes
